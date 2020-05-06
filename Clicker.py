@@ -70,7 +70,7 @@ SaQ.goto(-450, 325)
 SaQ.write("Press Esc to save and quit", align='center', font=('Arial', 10, 'normal'))
 
 # Making functions 
-def click(uselessparameter1, uselessparameter2):
+def click(uselessparameter1, uselessparameter1point5):
 	global clickvalue
 	global clicks
 	clicks += clickvalue
