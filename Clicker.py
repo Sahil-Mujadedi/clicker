@@ -87,7 +87,8 @@ def upgradeValue():
 		totalclicks.clear()
 		totalclicks.write("Clicks: {}".format(str(clicks)), align='center', font=('Arial', 24, 'normal'))
 		clicksneeded.clear()
-		clicksneeded.write("Clicks needed to upgrade: {}                                      Clicks needed to upgrade: {}".format(neededclicks1, neededclicks2), align='center', font=('Arial', 15, 'normal'))
+		clicksneeded.write("Clicks needed to upgrade: {}                                                                Clicks needed to upgrade: {}".format(neededclicks1, neededclicks2), align='center', font=('Arial', 15, 'normal'))
+		
 	else:
 		Upgrademan.clear()
 		Upgrademan.write('Not enough clicks', align='center', font=('Arial', 15, 'normal'))
