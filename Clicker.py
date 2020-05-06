@@ -2,6 +2,7 @@
 
 import turtle
 import time
+import threading
 
 # Adding the screen
 wn = turtle.Screen()
@@ -83,7 +84,7 @@ def upgradeValue():
 	if clicks >= neededclicks1:
 		clicks -= neededclicks1
 		neededclicks1 *= 2
-		clickvalue += 1
+		clickvalue += 2
 		totalclicks.clear()
 		totalclicks.write("Clicks: {}".format(str(clicks)), align='center', font=('Arial', 24, 'normal'))
 		clicksneeded.clear()
@@ -95,16 +96,45 @@ def upgradeValue():
 		time.sleep(0.2)
 		Upgrademan.clear()
 		Upgrademan.write("Press E to upgrade click value.                            Press Q to upgrade clicks per second.", align='center', font=('Arial', 20, 'normal'))
+
+def upgradeClicksPerSec():
+	global clicks_per_sec
+	global clicks
+	global neededclicks2
+	if clicks >= neededclicks2:
+		clicks_per_sec += 1
+		clicks -= neededclicks2
+		neededclicks2 *= 2
+		totalclicks.clear()
+		clicksneeded.clear()
+		ClicksPerSec.clear()
+		totalclicks.write("Clicks: {}".format(str(clicks)), align='center', font=('Arial', 24, 'normal'))
+		clicksneeded.write("Clicks needed to upgrade: {}                                                                Clicks needed to upgrade: {}".format(neededclicks1, neededclicks2), align='center', font=('Arial', 15, 'normal'))
+		ClicksPerSec.write("Clicks Each Second: {}".format(clicks_per_sec), align='center', font=('Arial', 24, 'normal'))
+	else:
+		Upgrademan.clear()
+		Upgrademan.write('Not enough clicks', align='center', font=('Arial', 15, 'normal'))
+		time.sleep(0.2)
+		Upgrademan.clear()
+		Upgrademan.write("Press E to upgrade click value.                            Press Q to upgrade clicks per second.", align='center', font=('Arial', 20, 'normal'))
+		
+def addingclicks():
+	global clicks
+	global clicks_per_sec
+	clicks += clicks_per_sec
+	totalclicks.clear()
+	totalclicks.write("Clicks: {}".format(str(clicks)), align='center', font=('Arial', 24, 'normal'))
+
+
 wn.listen()
 turtle.onscreenclick(click)
 wn.onkey(upgradeValue, 'e')
+wn.onkey(upgradeClicksPerSec, 'q')
 
 
 while True:
 	wn.update()
-	if clicks_per_sec > 0:
-		time.sleep(1)
-		clicks += 1
-
 	
+
+
 
