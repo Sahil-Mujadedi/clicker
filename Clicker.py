@@ -1,140 +1,142 @@
-#Clicker
+from turtle import Screen, Turtle
+from time import sleep
 
-import turtle
-import time
-import threading
+# Constants
+TEXT_COLOR = 'white'
 
-# Adding the screen
-wn = turtle.Screen()
-wn.title("Clicker")
-wn.bgcolor("black")
-wn.setup(width=1080, height=690)
-wn.tracer(0)
+TINY_FONT = ('Arial', 10, 'normal')
+SMALL_FONT = ('Arial', 15, 'normal')
+MEDIUM_FONT = ('Arial', 20, 'normal')
+LARGE_FONT = ('Arial', 24, 'normal')
+HUGE_FONT = ('Arial', 35, 'normal')
 
 # Variables
-neededclicks1 = 5
-neededclicks2 = 10
-
-textcolor = 'white'
+needed_clicks_1 = 5
+needed_clicks_2 = 11
 
 clicks = 0
 clicks_per_sec = 0
-clickvalue = 1
+click_value = 1
+
+# Functions
+def click(x, y):
+    global clicks
+
+    clicks += click_value
+    total_clicks.clear()
+    total_clicks.write("Clicks: {}".format(clicks), align='center', font=LARGE_FONT)
+
+def upgradeValue():
+    global click_value
+    global needed_clicks_1
+    global clicks
+
+    if clicks >= needed_clicks_1:
+        clicks -= needed_clicks_1
+        needed_clicks_1 *= 2
+        click_value += 2
+
+        total_clicks.clear()
+        total_clicks.write("Clicks: {}".format(clicks), align='center', font=LARGE_FONT)
+
+        clicks_needed.clear()
+        clicks_needed.write("Clicks needed to upgrade: {}                                                                Clicks needed to upgrade: {}".format(needed_clicks_1, needed_clicks_2), align='center', font=SMALL_FONT)
+
+    else:
+        upgrade_man.clear()
+        upgrade_man.write('Not enough clicks', align='center', font=SMALL_FONT)
+        sleep(0.2)
+        upgrade_man.clear()
+        upgrade_man.write("Press E to upgrade click value.                            Press Q to upgrade clicks per second.", align='center', font=MEDIUM_FONT)
+
+def upgradeClicks_Per_Sec():
+    global clicks_per_sec
+    global clicks
+    global needed_clicks_2
+
+    if clicks >= needed_clicks_2:
+        clicks_per_sec += 1
+        clicks -= needed_clicks_2
+        needed_clicks_2 *= 2
+
+        total_clicks.clear()
+        total_clicks.write("Clicks: {}".format(str(clicks)), align='center', font=LARGE_FONT)
+
+        clicks_needed.clear()
+        clicks_needed.write("Clicks needed to upgrade: {}                                                                Clicks needed to upgrade: {}".format(needed_clicks_1, needed_clicks_2), align='center', font=SMALL_FONT)
+
+        Clicks_Per_Sec.clear()
+        Clicks_Per_Sec.write("Clicks Each Second: {}".format(clicks_per_sec), align='center', font=LARGE_FONT)
+    else:
+        upgrade_man.clear()
+        upgrade_man.write('Not enough clicks', align='center', font=SMALL_FONT)
+        sleep(0.2)
+        upgrade_man.clear()
+        upgrade_man.write("Press E to upgrade click value.                            Press Q to upgrade clicks per second.", align='center', font=MEDIUM_FONT)
+
+def adding_clicks():
+    global clicks
+
+    clicks += clicks_per_sec
+    total_clicks.clear()
+    total_clicks.write("Clicks: {}".format(clicks), align='center', font=LARGE_FONT)
+
+    screen.ontimer(adding_clicks, 1000)
+
+# Adding the screen
+screen = Screen()
+screen.title("Clicker")
+screen.bgcolor("black")
+screen.setup(width=1080, height=690)
 
 # Adding turtles
-clicksneeded = turtle.Turtle()
-clicksneeded.speed(0)
-clicksneeded.color(textcolor)
-clicksneeded.penup()
-clicksneeded.hideturtle()
-clicksneeded.goto(-25, -100)
-clicksneeded.write("Clicks needed to upgrade: 5                                                                Clicks needed to upgrade: 10", align='center', font=('Arial', 15, 'normal'))
+clicks_needed = Turtle()
+clicks_needed.hideturtle()
+clicks_needed.color(TEXT_COLOR)
+clicks_needed.penup()
+clicks_needed.goto(-25, -100)
+clicks_needed.write("Clicks needed to upgrade: 5                                                                Clicks needed to upgrade: 11", align='center', font=SMALL_FONT)
 
-totalclicks = turtle.Turtle()
-totalclicks.speed(0)
-totalclicks.color(textcolor)
-totalclicks.penup()
-totalclicks.hideturtle()
-totalclicks.goto(0, 260)
-totalclicks.write("Clicks: 0", align='center', font=('Arial', 24, "normal"))
+total_clicks = Turtle()
+total_clicks.hideturtle()
+total_clicks.color(TEXT_COLOR)
+total_clicks.penup()
+total_clicks.goto(0, 260)
+total_clicks.write("Clicks: 0", align='center', font=LARGE_FONT)
 
-ClicksPerSec = turtle.Turtle()
-ClicksPerSec.speed(0)
-ClicksPerSec.color(textcolor)
-ClicksPerSec.penup()
-ClicksPerSec.hideturtle()
-ClicksPerSec.goto(0, 200)
-ClicksPerSec.write("Clicks Each Second: 0", align='center', font=('Arial', 24, 'normal'))
+Clicks_Per_Sec = Turtle()  # to avoid clashing with clicks_per_sec
+Clicks_Per_Sec.hideturtle()
+Clicks_Per_Sec.color(TEXT_COLOR)
+Clicks_Per_Sec.penup()
+Clicks_Per_Sec.goto(0, 200)
+Clicks_Per_Sec.write("Clicks Each Second: 0", align='center', font=LARGE_FONT)
 
-ClickHere = turtle.Turtle()
-ClickHere.speed(0)
-ClickHere.color(textcolor)
-ClickHere.penup()
-ClickHere.hideturtle()
-ClickHere.goto(0, -200)
-ClickHere.write("CLICK ANYWHERE", align='center', font=('Arial', 35, 'normal'))
+click_here = Turtle()
+click_here.hideturtle()
+click_here.color(TEXT_COLOR)
+click_here.penup()
+click_here.goto(0, -200)
+click_here.write("CLICK ANYWHERE", align='center', font=HUGE_FONT)
 
-Upgrademan = turtle.Turtle()
-Upgrademan.speed(0)
-Upgrademan.color(textcolor)
-Upgrademan.penup()
-Upgrademan.hideturtle()
-Upgrademan.goto(0, +100)
-Upgrademan.write("Press E to upgrade click value.                          Press Q to upgrade clicks per second.", align='center', font=('Arial', 20, 'normal'))
+upgrade_man = Turtle()
+upgrade_man.hideturtle()
+upgrade_man.color(TEXT_COLOR)
+upgrade_man.penup()
+upgrade_man.goto(0, 100)
+upgrade_man.write("Press E to upgrade click value.                          Press Q to upgrade clicks per second.", align='center', font=MEDIUM_FONT)
 
-SaQ = turtle.Turtle()
-SaQ.speed(0)
-SaQ.color(textcolor)
-SaQ.penup()
-SaQ.hideturtle()
-SaQ.goto(-450, 325)
-SaQ.write("Press Esc to save and quit", align='center', font=('Arial', 10, 'normal'))
+save_and_quit = Turtle()
+save_and_quit.hideturtle()
+save_and_quit.color(TEXT_COLOR)
+save_and_quit.penup()
+save_and_quit.goto(-450, 325)
+save_and_quit.write("Press Esc to save and quit", align='center', font=TINY_FONT)
 
-# Making functions 
-def click(uselessparameter1, uselessparameter1point5):
-	global clickvalue
-	global clicks
-	clicks += clickvalue
-	totalclicks.clear()
-	totalclicks.write("Clicks: {}".format(str(clicks)), align='center', font=('Arial', 24, "normal"))
-def upgradeValue():
-	global clickvalue
-	global neededclicks1
-	global clicks
-	if clicks >= neededclicks1:
-		clicks -= neededclicks1
-		neededclicks1 *= 2
-		clickvalue += 2
-		totalclicks.clear()
-		totalclicks.write("Clicks: {}".format(str(clicks)), align='center', font=('Arial', 24, 'normal'))
-		clicksneeded.clear()
-		clicksneeded.write("Clicks needed to upgrade: {}                                                                Clicks needed to upgrade: {}".format(neededclicks1, neededclicks2), align='center', font=('Arial', 15, 'normal'))
-		
-	else:
-		Upgrademan.clear()
-		Upgrademan.write('Not enough clicks', align='center', font=('Arial', 15, 'normal'))
-		time.sleep(0.2)
-		Upgrademan.clear()
-		Upgrademan.write("Press E to upgrade click value.                            Press Q to upgrade clicks per second.", align='center', font=('Arial', 20, 'normal'))
+screen.onscreenclick(click)
+screen.onkey(upgradeValue, 'e')
+screen.onkey(upgradeClicks_Per_Sec, 'q')
+screen.listen()
 
-def upgradeClicksPerSec():
-	global clicks_per_sec
-	global clicks
-	global neededclicks2
-	if clicks >= neededclicks2:
-		clicks_per_sec += 1
-		clicks -= neededclicks2
-		neededclicks2 *= 2
-		totalclicks.clear()
-		clicksneeded.clear()
-		ClicksPerSec.clear()
-		totalclicks.write("Clicks: {}".format(str(clicks)), align='center', font=('Arial', 24, 'normal'))
-		clicksneeded.write("Clicks needed to upgrade: {}                                                                Clicks needed to upgrade: {}".format(neededclicks1, neededclicks2), align='center', font=('Arial', 15, 'normal'))
-		ClicksPerSec.write("Clicks Each Second: {}".format(clicks_per_sec), align='center', font=('Arial', 24, 'normal'))
-	else:
-		Upgrademan.clear()
-		Upgrademan.write('Not enough clicks', align='center', font=('Arial', 15, 'normal'))
-		time.sleep(0.2)
-		Upgrademan.clear()
-		Upgrademan.write("Press E to upgrade click value.                            Press Q to upgrade clicks per second.", align='center', font=('Arial', 20, 'normal'))
-		
-def addingclicks():
-	global clicks
-	global clicks_per_sec
-	clicks += clicks_per_sec
-	totalclicks.clear()
-	totalclicks.write("Clicks: {}".format(str(clicks)), align='center', font=('Arial', 24, 'normal'))
+adding_clicks()
 
-
-wn.listen()
-turtle.onscreenclick(click)
-wn.onkey(upgradeValue, 'e')
-wn.onkey(upgradeClicksPerSec, 'q')
-
-
-while True:
-	wn.update()
-	
-
-
-
+screen.mainloop()
