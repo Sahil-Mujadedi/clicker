@@ -24,7 +24,7 @@ def click(x, y):
 
     clicks += click_value
     total_clicks.clear()
-    total_clicks.write("Clicks: {}".format(clicks), align='center', font=LARGE_FONT)
+    total_clicks.write("Clicks: {}".format(round(clicks)), align='center', font=LARGE_FONT)
 
 def upgradeValue():
     global click_value
@@ -36,8 +36,8 @@ def upgradeValue():
         needed_clicks_1 *= 2
         click_value += 2
 
-        Turtle.clear()
-        total_clicks.write("Clicks: {}".format(clicks), align='center', font=LARGE_FONT)
+        total_clicks.clear()
+        total_clicks.write("Clicks: {}".format(round(clicks)), align='center', font=LARGE_FONT)
 
         clicks_needed.clear()
         clicks_needed.write("Clicks needed to upgrade: {}                                                                Clicks needed to upgrade: {}".format(needed_clicks_1, needed_clicks_2), align='center', font=SMALL_FONT)
@@ -60,7 +60,7 @@ def upgradeClicks_Per_Sec():
         needed_clicks_2 *= 2
 
         total_clicks.clear()
-        total_clicks.write("Clicks: {}".format(str(clicks)), align='center', font=LARGE_FONT)
+        total_clicks.write("Clicks: {}".format(str(round(clicks))), align='center', font=LARGE_FONT)
 
         clicks_needed.clear()
         clicks_needed.write("Clicks needed to upgrade: {}                                                                Clicks needed to upgrade: {}".format(needed_clicks_1, needed_clicks_2), align='center', font=SMALL_FONT)
@@ -77,14 +77,17 @@ def upgradeClicks_Per_Sec():
 def adding_clicks():
     global clicks
 
-    clicks += clicks_per_sec
+    # Add by the clicks per second divided by 8 because we will be adding that number each second divided 8 times to get a more fluid incrementing display
+    clicks += clicks_per_sec / 8
     total_clicks.clear()
-    total_clicks.write("Clicks: {}".format(clicks), align='center', font=LARGE_FONT)
+    total_clicks.write("Clicks: {}".format(round(clicks)), align='center', font=LARGE_FONT)
 
-    screen.ontimer(adding_clicks, 1000)
+    # Call adding clicks at 1000 / 8 ms so total clicks updates more fluidly instead of jumping by clicks_per_sec each second 
+    screen.ontimer(adding_clicks, 125)
 
 # Adding the screen
 screen = Screen()
+# Turn off the tracer because we do not need to see any drawing animations
 screen.tracer(False)
 screen.title("Clicker")
 screen.bgcolor("black")
