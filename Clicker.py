@@ -36,7 +36,7 @@ def upgradeValue():
         needed_clicks_1 *= 2
         click_value += 2
 
-        total_clicks.clear()
+        Turtle.clear()
         total_clicks.write("Clicks: {}".format(clicks), align='center', font=LARGE_FONT)
 
         clicks_needed.clear()
@@ -85,6 +85,7 @@ def adding_clicks():
 
 # Adding the screen
 screen = Screen()
+screen.tracer(False)
 screen.title("Clicker")
 screen.bgcolor("black")
 screen.setup(width=1080, height=690)
