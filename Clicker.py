@@ -145,4 +145,6 @@ screen.listen()
 
 adding_clicks()
 
+print('Game started.')
+
 screen.mainloop()
