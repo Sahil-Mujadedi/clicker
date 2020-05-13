@@ -1,6 +1,8 @@
 from turtle import Screen, Turtle
 from time import sleep
 
+print('Game loading...')
+
 # Constants
 TEXT_COLOR = 'white'
 
