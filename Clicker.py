@@ -1,7 +1,10 @@
-from turtle import Screen, Turtle
-from time import sleep
-
-print('Game loading...')
+try:   
+    from turtle import Screen, Turtle
+    from time import sleep
+except:
+    print('If you are on a Debian based Linux distro, on Python2, go to terminal, then type "sudo apt install python-tk"\nIf on Python3, type "sudo apt install python3-tk"')
+    print('If you are on Windows, Python should come with Tkinter, but if you are on Windows and reading this, it means Python can\'t find Tkinter, you may have to google how to fix this.')
+    print('If you are on MacOS, Python should come with Tkinter, but if you are on MacOS and reading this message, it means Python can\'t find Tkinter, you may have to google how to fix this.')
 
 # Constants
 TEXT_COLOR = 'white'
@@ -49,7 +52,7 @@ def upgradeValue():
         upgrade_man.write('Not enough clicks', align='center', font=SMALL_FONT)
         sleep(0.2)
         upgrade_man.clear()
-        upgrade_man.write("Press E to upgrade click value.                            Press Q to upgrade clicks per second.", align='center', font=MEDIUM_FONT)
+        upgrade_man.write("Press Q to upgrade click value.                            Press E to upgrade clicks per second.", align='center', font=MEDIUM_FONT)
 
 def upgradeClicks_Per_Sec():
     global clicks_per_sec
@@ -74,7 +77,7 @@ def upgradeClicks_Per_Sec():
         upgrade_man.write('Not enough clicks', align='center', font=SMALL_FONT)
         sleep(0.2)
         upgrade_man.clear()
-        upgrade_man.write("Press E to upgrade click value.                            Press Q to upgrade clicks per second.", align='center', font=MEDIUM_FONT)
+        upgrade_man.write("Press Q to upgrade click value.                            Press E to upgrade clicks per second.", align='center', font=MEDIUM_FONT)
 
 def adding_clicks():
     global clicks
@@ -101,21 +104,21 @@ clicks_needed.hideturtle()
 clicks_needed.color(TEXT_COLOR)
 clicks_needed.penup()
 clicks_needed.goto(-25, -100)
-clicks_needed.write("Clicks needed to upgrade: 5                                                                Clicks needed to upgrade: 11", align='center', font=SMALL_FONT)
+clicks_needed.write("Clicks needed to upgrade: {}                                                                Clicks needed to upgrade: {}".format(needed_clicks_1, needed_clicks_2), align='center', font=SMALL_FONT)
 
 total_clicks = Turtle()
 total_clicks.hideturtle()
 total_clicks.color(TEXT_COLOR)
 total_clicks.penup()
 total_clicks.goto(0, 260)
-total_clicks.write("Clicks: 0", align='center', font=LARGE_FONT)
+total_clicks.write("Clicks: {}".format(clicks), align='center', font=LARGE_FONT)
 
 Clicks_Per_Sec = Turtle()  # to avoid clashing with clicks_per_sec
 Clicks_Per_Sec.hideturtle()
 Clicks_Per_Sec.color(TEXT_COLOR)
 Clicks_Per_Sec.penup()
 Clicks_Per_Sec.goto(0, 200)
-Clicks_Per_Sec.write("Clicks Each Second: 0", align='center', font=LARGE_FONT)
+Clicks_Per_Sec.write("Clicks Each Second: {}".format(clicks_per_sec), align='center', font=LARGE_FONT)
 
 click_here = Turtle()
 click_here.hideturtle()
@@ -129,22 +132,20 @@ upgrade_man.hideturtle()
 upgrade_man.color(TEXT_COLOR)
 upgrade_man.penup()
 upgrade_man.goto(0, 100)
-upgrade_man.write("Press E to upgrade click value.                          Press Q to upgrade clicks per second.", align='center', font=MEDIUM_FONT)
+upgrade_man.write("Press Q to upgrade click value.                          Press E to upgrade clicks per second.", align='center', font=MEDIUM_FONT)
 
 save_and_quit = Turtle()
 save_and_quit.hideturtle()
 save_and_quit.color(TEXT_COLOR)
 save_and_quit.penup()
 save_and_quit.goto(-450, 325)
-save_and_quit.write("Press Esc to save and quit", align='center', font=TINY_FONT)
+save_and_quit.write("Press Space Bar to save and quit", align='center', font=TINY_FONT)
 
 screen.onscreenclick(click)
-screen.onkey(upgradeValue, 'e')
-screen.onkey(upgradeClicks_Per_Sec, 'q')
+screen.onkey(upgradeValue, 'q')
+screen.onkey(upgradeClicks_Per_Sec, 'e')
 screen.listen()
 
 adding_clicks()
-
-print('Game started.')
 
 screen.mainloop()
